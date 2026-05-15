@@ -19,6 +19,14 @@ cd ~/dotfiles
 stow .
 ```
 
+tmux plugins (one-time, per machine):
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+Then start a tmux session and press `prefix + I` (capital I) to install the plugins listed in `.tmux.conf`.
+
 To remove symlinks:
 
 ```bash
