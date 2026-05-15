@@ -2,12 +2,22 @@
 
 dotfiles, managed using [GNU Stow](https://www.gnu.org/software/stow/) and git.
 
+## Layout
+
+Each top-level directory is a stow package and mirrors the path it will be linked into, relative to `$HOME`:
+
+```
+dotfiles/
+  tmux/   .tmux.conf       → ~/.tmux.conf
+  zsh/    .zshrc           → ~/.zshrc
+  gh/     .config/gh/      → ~/.config/gh/
+```
+
 ## Prerequisites
 
-- Install GNU Stow:
-  ```bash
-  brew install stow      # macOS
-  ```
+```bash
+brew install stow      # macOS
+```
 
 ## Usage
 
@@ -16,21 +26,24 @@ Install:
 ```bash
 git clone https://github.com/rickyxiaoyang/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-stow .
+stow tmux           # stow one package
+stow tmux zsh gh   # or several at once
 ```
 
-tmux plugins (one-time, per machine):
+If stow reports conflicts (existing non-symlink files at the target), either back them up and retry, or use `stow --adopt <pkg>` to pull the existing file into the repo (it overwrites the package's copy — review with `git diff` before committing).
+
+Unstow:
+
+```bash
+stow -D tmux
+```
+
+## tmux plugins
+
+One-time, per machine:
 
 ```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-Then start a tmux session and press `prefix + I` (capital I) to install the plugins listed in `.tmux.conf`.
-
-To remove symlinks:
-
-```bash
-stow -D
-```
-
-For now, usage is grouped together with one `stow .` install. However, best practice is to split different configurations into packages and stow them individually (`stow nvim`)
+Then start a tmux session and press `prefix + I` (capital I) to install the plugins listed in `tmux/.tmux.conf`.
